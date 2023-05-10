@@ -26,21 +26,54 @@ function render(variables = {}) {
   console.log("These are the current variables: ", variables); //print on the console
   // here we ask the logical questions to make decisions on how to build the html
   // if includeCover==false then we reset the cover code without the <img> tag to make the cover transparent.
+
   let cover = `<div class="cover"><img src="${variables.background}" /></div>`;
   if (variables.includeCover == false) cover = "<div class='cover'></div>";
+
+  let porfileName = `<h1>${variables.name} ${variables.lastname}</h1>`;
+  if (variables.name == null) porfileName = `<h1>${variables.lastname}</h1>`;
+  if (variables.lastname == null) porfileName = `<h1>${variables.name}</h1>`;
+  if (variables.name == null && variables.lastname == null)
+    porfileName = `<h1></h1>`;
+
+  let porfileRole =
+    variables.role == null ? `<h2></h2>` : `<h2>${variables.role}</h2>`;
+
+  let location = `<h3>${variables.city}, ${variables.country}</h3>`;
+  if (variables.city == null) location = `<h3>${variables.country}</h3>`;
+  if (variables.country == null) location = `<h3>${variables.city}</h3>`;
+  if (variables.city == null && variables.country == null)
+    location = `<h3></h3>`;
+
+  let twitterMedia =
+    variables.twitter == null
+      ? `<li></li>`
+      : `<li><a href="${variables.twitter}"><i class="fab fa-twitter"></i></a></li>`;
+  let githubMedia =
+    variables.github == null
+      ? `<li></li>`
+      : `<li><a href="${variables.github}"><i class="fab fa-github"></i></a></li>`;
+  let linkedinMedia =
+    variables.linkedin == null
+      ? `<li></li>`
+      : `<li><a href="${variables.linkedin}"><i class="fab fa-linkedin"></i></a></li>`;
+  let instagramMedia =
+    variables.instagram == null
+      ? `<li></li>`
+      : `<li><a href="${variables.instagram}"><i class="fab fa-instagram"></i></a></li>`;
 
   // reset the website body with the new html output
   document.querySelector("#widget_content").innerHTML = `<div class="widget">
             ${cover}
           <img src="${variables.avatarURL}" class="photo" />
-          <h1>${variables.name} ${variables.lastname}</h1>
-          <h2>${variables.role}</h2>
-          <h3>${variables.city}, ${variables.country}</h3>
+          ${porfileName}
+          ${porfileRole}
+          ${location}
           <ul class="${variables.socialMediaPosition}">
-            <li><a href="https://twitter.com/4geeksacademy"><i class="fab fa-twitter"></i></a></li>
-            <li><a href="https://github.com/4geeksacademy"><i class="fab fa-github"></i></a></li>
-            <li><a href="https://linkedin.com/4geeksacademy"><i class="fab fa-linkedin"></i></a></li>
-            <li><a href="https://instagram.com/4geeksacademy"><i class="fab fa-instagram"></i></a></li>
+            ${twitterMedia}
+            ${githubMedia}
+            ${linkedinMedia}
+            ${instagramMedia}
           </ul>
         </div>
     `;
@@ -61,7 +94,7 @@ window.onload = function() {
     socialMediaPosition: "position-left",
     // social media usernames
     twitter: null,
-    github: "alesanchezr",
+    github: null,
     linkedin: null,
     instagram: null,
     name: null,
